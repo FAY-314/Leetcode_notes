@@ -1,0 +1,37 @@
+题目描述：
+给你一个由 n 个元素组成的整数数组 nums 和一个整数 k 。
+请你找出平均数最大且 长度为 k 的连续子数组，并输出该最大平均数。
+任何误差小于 10-5 的答案都将被视为正确答案。
+示例 1：
+输入：nums = [1,12,-5,-6,50,3], k = 4
+输出：12.75
+解释：最大平均数 (12-5-6+50)/4 = 51/4 = 12.75
+示例 2：
+输入：nums = [5], k = 1
+输出：5.00000
+提示：
+n == nums.length
+1 <= k <= n <= 105
+-104 <= nums[i] <= 104
+
+刷题时间：2026.4.24
+题解：
+其实整体思路和1456定长子串中元音的最大数目差不多，只是对于初始条件的设定有不同。这道题是整数数组，可能会出现负数，所以一开始不能赋值为0，需要计算第一个窗口的和作为初始值。
+class Solution {
+public:
+    double findMaxAverage(vector<int>& nums, int k) {
+        double result,sum = 0,avg;
+        for(int i = 0; i < nums.size(); i++){
+            sum += nums[i];
+            int left = i-k+1;
+            if(left < 0){
+                continue;
+            }
+            avg = sum / k;
+            if(left == 0) result = avg;
+            else result = max(result,avg); 
+            sum -= nums[left];
+        }
+        return result;
+    }
+};
